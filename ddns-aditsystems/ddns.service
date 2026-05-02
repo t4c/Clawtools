@@ -1,0 +1,25 @@
+[Unit]
+Description=DDNS Updater for AD IT Systems DNS API (Flask HTTP Server)
+Documentation=https://github.com/YOUR_USERNAME/ddns-aditsystems
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ddns
+Group=ddns
+WorkingDirectory=/opt/ddns-aditsystems
+EnvironmentFile=/etc/ddns-aditsystems/ddns.env
+ExecStart=/opt/ddns-aditsystems/.venv/bin/python ddns_server.py
+Restart=on-failure
+RestartSec=10
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/cache/ddns-aditsystems /var/log/ddns-aditsystems
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

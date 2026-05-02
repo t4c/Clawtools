@@ -1,0 +1,11 @@
+# ddns-aditsystems — cron example for standalone IP update
+#
+# Run every 5 minutes, update DNS only if IP has changed.
+# Install: crontab -e  (as root or the ddns service user)
+#
+# Adjust the paths to match your installation.
+
+*/5 * * * * /opt/ddns-aditsystems/.venv/bin/python /opt/ddns-aditsystems/ddns_update.py >> /var/log/ddns-aditsystems/cron.log 2>&1
+
+# Force update once a day at 03:00 (keeps TTL fresh)
+0 3 * * * /opt/ddns-aditsystems/.venv/bin/python /opt/ddns-aditsystems/ddns_update.py --force >> /var/log/ddns-aditsystems/cron.log 2>&1
