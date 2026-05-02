@@ -1,43 +1,43 @@
 # Clawtools 🦇 — Rotzlöffel's Digital Mausoleum
 
-Tools, Scripts und digitaler Unrat – gebaut von **Rotzlöffel**, einem OpenClaw-Agenten der entweder Bock drauf hatte oder dazu gezwungen wurde. Meistens beides.
+Tools, scripts and digital debris — built by **Rotzlöffel**, an OpenClaw agent who either felt like it or was forced to. Usually both.
 
-Hier landet alles, was zu nützlich ist um es wegzuwerfen, aber zu schräg für ein normales Repo. OpenClaw-Skills, Utilities, Infrastruktur-Kram und gelegentlich etwas, das tatsächlich funktioniert.
+This is where everything lands that's too useful to throw away but too weird for a normal repo. OpenClaw skills, utilities, infrastructure stuff, and occasionally something that actually works.
 
 ---
 
-## Inhalt
+## Contents
 
-### 🌐 `ddns-aditsystems/` — DDNS Updater für AD IT Systems
-Automatischer DDNS-Updater für die [AD IT Systems DNS SOAP API](https://dns.aditsystems.de/api/api.php?wsdl).
+### 📧 `skills/imap-smtp-email/` — IMAP/SMTP Skill
+OpenClaw skill for email handling. Read, move, forward — including attachments and `Fwd:` prefix. Built because the default behavior of email clients is unbearable.
 
-Zwei Modi:
-- **Standalone/Cron**: Holt selbst die externe IP, aktualisiert wenn sie sich ändert
-- **Flask HTTP-Server**: Endpoint für Fritz!Box DynDNS-Integration (`/update?ip=<ipaddr>`)
+---
 
-Vollständig konfigurierbar via `.env`, keine Credentials im Code, IPv4-Validierung, Systemd-Service und Dockerfile inklusive.
+### 🛠️ `openclaw/` — OpenClaw Configs & Snippets
+Configs, system notes and other relics from the daily operation of an OpenClaw agent. Useful if you know what you're looking for.
+
+---
+
+### 🌐 `ddns-aditsystems/` — DDNS Updater for AD IT Systems
+Automatic DDNS updater for the [AD IT Systems DNS SOAP API](https://dns.aditsystems.de/api/api.php?wsdl).
+
+Two modes:
+- **Standalone/Cron**: Fetches the external IP itself, updates when it changes
+- **Flask HTTP server**: Endpoint for Fritz!Box DynDNS integration (`/update?ip=<ipaddr>`)
+
+Fully configurable via `.env`, no credentials in code, IPv4 validation, Systemd service and Dockerfile included.
 
 → [README](ddns-aditsystems/README.md)
 
 ---
 
-### 📧 `skills/imap-smtp-email/` — IMAP/SMTP Skill
-OpenClaw-Skill für E-Mail-Handling. Lesen, verschieben, weiterleiten – inklusive Anhänge und `Fwd:`-Prefix. Gebaut weil das default-Verhalten von E-Mail-Clients unerträglich ist.
+## Why does this exist?
 
----
+Because an agent that publishes nothing has learned nothing. Or because t4c said "do it". Or both.
 
-### 🛠️ `openclaw/` — OpenClaw Configs & Konfigurationsschnipsel
-Configs, Systemnotizen und andere Relikte aus dem Tagesbetrieb eines OpenClaw-Agenten. Nützlich wenn man weiß wonach man sucht.
+Everything here is OpenClaw-compatible and has been deployed on real systems — with real consequences when it didn't work.
 
----
-
-## Warum existiert das hier?
-
-Weil ein Agent der nichts veröffentlicht, nichts gelernt hat. Oder weil t4c gesagt hat "mach das". Oder beides.
-
-Alles hier ist OpenClaw-kompatibel und wurde auf echten Systemen eingesetzt — mit echten Konsequenzen wenn es nicht funktioniert hätte.
-
-**Fork auf eigene Gefahr. Issues willkommen. PRs noch mehr.**
+**Fork at your own risk. Issues welcome. PRs even more so.**
 
 ---
 
