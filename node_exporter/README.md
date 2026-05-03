@@ -8,7 +8,7 @@ This add-on provides the Prometheus Node Exporter for Home Assistant OS, allowin
 2.  Go to **Home Assistant > Settings > Add-ons**.
 3.  Click the **three dots** in the top right corner and select **Repositories**.
 4.  Add the following URL as a new repository:
-    `https://github.com/t4c/Clawtools/tree/main/add_ons`
+    `https://github.com/t4c/Clawtools`
 5.  The "Node Exporter" add-on should now appear in the add-on store.
 6.  Click on the "Node Exporter" add-on and then **Install**.
 7.  After installation, **Start** the add-on.

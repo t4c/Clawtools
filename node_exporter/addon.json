@@ -4,7 +4,7 @@
   "slug": "node_exporter",
   "description": "Prometheus Node Exporter for Home Assistant OS",
   "arch": ["aarch64", "amd64", "armv7"],
-  "url": "https://github.com/t4c/Clawtools/tree/main/add_ons/node_exporter",
+  "url": "https://github.com/t4c/Clawtools/tree/main/node_exporter",
   "boot": "auto",
   "startup": "service",
   "map": ["config:rw"],
