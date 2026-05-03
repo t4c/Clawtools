@@ -20,7 +20,7 @@ RUN case ${BUILD_ARCH} in \
     && rm -rf node_exporter-${NODE_EXPORTER_VERSION}.linux-${ARCH}* \
     && apk del curl
 
-COPY run.sh /
-RUN chmod a+x /run.sh
-
-CMD [ "/run.sh" ]
+# Register as s6 service (required by HA base images with s6-overlay)
+RUN mkdir -p /etc/services.d/node_exporter
+COPY run.sh /etc/services.d/node_exporter/run
+RUN chmod a+x /etc/services.d/node_exporter/run
