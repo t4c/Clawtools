@@ -1,0 +1,26 @@
+{
+  "name": "Node Exporter",
+  "description": "Prometheus Node Exporter for Home Assistant OS monitoring",
+  "version": "1.11.1",
+  "slug": "node_exporter",
+  "init": false,
+  "arch": [
+    "amd64",
+    "armv7",
+    "aarch64"
+  ],
+  "ports": {
+    "9100/tcp": 9100
+  },
+  "ports_description": {
+    "9100/tcp": "Node Exporter metrics endpoint"
+  },
+  "startup": "service",
+  "boot": "auto",
+  "options": {
+    "textfile_directory": "/var/lib/node_exporter/textfile_collector"
+  },
+  "schema": {
+    "textfile_directory": "str"
+  }
+}
