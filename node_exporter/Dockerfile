@@ -1,7 +1,10 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/base:latest
-FROM ${BUILD_FROM}
+FROM ghcr.io/home-assistant/base:latest
 
-LABEL maintainer="t4c <t4c@ghcif.de>"
+LABEL \
+  io.hass.version="1.11.1" \
+  io.hass.type="addon" \
+  io.hass.arch="aarch64|amd64|armv7" \
+  maintainer="t4c <t4c@ghcif.de>"
 
 ARG NODE_EXPORTER_VERSION="1.11.1"
 ARG BUILD_ARCH
@@ -11,7 +14,7 @@ RUN case ${BUILD_ARCH} in \
     amd64) ARCH=amd64 ;; \
     aarch64) ARCH=arm64 ;; \
     armv7) ARCH=armv7 ;; \
-    *) echo "Unsupported architecture: ${BUILD_ARCH}"; exit 1 ;; \
+    *) ARCH=amd64 ;; \
     esac \
     && apk add --no-cache curl \
     && curl -LO https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.linux-${ARCH}.tar.gz \
@@ -20,7 +23,7 @@ RUN case ${BUILD_ARCH} in \
     && rm -rf node_exporter-${NODE_EXPORTER_VERSION}.linux-${ARCH}* \
     && apk del curl
 
-# Register as s6 service (required by HA base images with s6-overlay)
-RUN mkdir -p /etc/services.d/node_exporter
-COPY run.sh /etc/services.d/node_exporter/run
-RUN chmod a+x /etc/services.d/node_exporter/run
+COPY run.sh /
+RUN chmod a+x /run.sh
+
+CMD [ "/run.sh" ]
