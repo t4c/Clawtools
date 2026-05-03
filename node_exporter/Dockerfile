@@ -1,4 +1,4 @@
-FROM ghcr.io/home-assistant/base:latest
+FROM alpine:3.19
 
 LABEL \
   io.hass.version="1.11.1" \
@@ -9,8 +9,7 @@ LABEL \
 ARG NODE_EXPORTER_VERSION="1.11.1"
 ARG BUILD_ARCH
 
-# Map BUILD_ARCH to Node Exporter architecture
-RUN case ${BUILD_ARCH} in \
+RUN case ${BUILD_ARCH:-amd64} in \
     amd64) ARCH=amd64 ;; \
     aarch64) ARCH=arm64 ;; \
     armv7) ARCH=armv7 ;; \
@@ -23,7 +22,6 @@ RUN case ${BUILD_ARCH} in \
     && rm -rf node_exporter-${NODE_EXPORTER_VERSION}.linux-${ARCH}* \
     && apk del curl
 
-COPY run.sh /
-RUN chmod a+x /run.sh
+EXPOSE 9100
 
-CMD [ "/run.sh" ]
+CMD ["node_exporter", "--web.listen-address=:9100"]
