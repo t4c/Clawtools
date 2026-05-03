@@ -1,0 +1,9 @@
+{
+  "repositories": [
+    {
+      "name": "Clawtools Repository",
+      "url": "https://github.com/t4c/Clawtools",
+      "maintainer": "t4c"
+    }
+  ]
+}
