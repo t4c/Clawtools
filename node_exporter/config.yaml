@@ -1,5 +1,5 @@
 name: "Node Exporter"
-version: "1.11.1"
+version: "1.0.0"
 slug: "node_exporter"
 description: "Prometheus Node Exporter for Home Assistant OS"
 arch:
