@@ -1,4 +1,5 @@
-FROM alpine:3.19
+ARG BUILD_FROM=ghcr.io/home-assistant/base:latest
+FROM ${BUILD_FROM}
 
 LABEL \
   io.hass.version="1.11.1" \
@@ -22,6 +23,5 @@ RUN case ${BUILD_ARCH:-amd64} in \
     && rm -rf node_exporter-${NODE_EXPORTER_VERSION}.linux-${ARCH}* \
     && apk del curl
 
-EXPOSE 9100
-
-CMD ["node_exporter", "--web.listen-address=:9100"]
+# Copy rootfs (s6 service definition)
+COPY rootfs /
