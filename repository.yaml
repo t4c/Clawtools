@@ -1,5 +1,3 @@
 name: t4c's Custom Add-ons
 url: https://github.com/t4c/Clawtools
 maintainer: t4c <t4c@ghcif.de>
-addons:
-  - node_exporter
