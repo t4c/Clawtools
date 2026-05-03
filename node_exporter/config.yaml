@@ -7,10 +7,9 @@ arch:
   - amd64
   - armv7
 url: "https://github.com/t4c/Clawtools/tree/main/node_exporter"
+init: false
 boot: auto
 startup: services
-map:
-  - "config:rw"
 ports:
   "9100/tcp": 9100
 options: {}
