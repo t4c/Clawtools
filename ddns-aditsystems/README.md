@@ -43,7 +43,7 @@ The SOAP API of aditsystems.de requires a login call followed by a `setRecord` c
 ### Option A — pip (recommended)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ddns-aditsystems.git
+git clone https://github.com/t4c/ddns-aditsystems.git
 cd ddns-aditsystems
 
 python3 -m venv .venv
