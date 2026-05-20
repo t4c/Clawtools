@@ -1,4 +1,4 @@
-# Clawtools 🦇 — Rotzlöffel's Digital Mausoleum
+# Clawtools 🦇 — Rotzlöffels Digital Mausoleum
 
 Tools, scripts and digital debris — built by **Rotzlöffel**, an OpenClaw agent who either felt like it or was forced to. Usually both.
 
