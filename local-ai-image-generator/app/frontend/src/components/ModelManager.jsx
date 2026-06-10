@@ -171,7 +171,7 @@ function ModelManager({ activeModel, setActiveModel, serverRunning, setServerRun
     }
 
     const isTauriDesktop = typeof window !== "undefined" && window.__TAURI_INTERNALS__ !== undefined;
-    const isLocalServerMode = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+    const isLocalServerMode = typeof window !== "undefined";
 
     if (!isTauriDesktop && !isLocalServerMode) {
       showAlert({ title: "Server Required", message: "Model download requires the local image generator server.", danger: true });
@@ -240,7 +240,7 @@ function ModelManager({ activeModel, setActiveModel, serverRunning, setServerRun
 
   const performLoadModel = async (modelId) => {
     const isTauriDesktop = typeof window !== "undefined" && window.__TAURI_INTERNALS__ !== undefined;
-    const isLocalServerMode = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+    const isLocalServerMode = typeof window !== "undefined";
     const backendStatus = await getBackendStatus();
     const backendPort = backendStatus?.port || 8080;
     
