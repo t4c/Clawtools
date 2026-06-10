@@ -5,8 +5,7 @@
 ---
 
 > 🐧 **Note on this Fork:** This repository is a native Linux-only fork of the original Windows-centric [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator).
-> 
-> ⚠️ **WARNING:** This fork is **LINUX-ONLY**. Windows support has been ruthlessly castrated because we have zero patience for registry clusterfucks and outdated PowerShell scripts. If you want Windows, go beg at the original [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator). Here, Penguin-Power rules with automatic CUDA compilation.
+
 
 ---
 
@@ -14,7 +13,7 @@
 The original codebase was a Windows slave. We brought out the whip and domesticated it for Linux:
 *   **100% Native Linux:** No Wine, no WSL gymnastics.
 *   **Automated CUDA Compilation:** If you have an Nvidia card, `./setup.sh` automatically compiles `stable-diffusion.cpp` with native CUDA acceleration on first run.
-*   **True LAN Party Capabilities:** The server listens on `0.0.0.0` and the React frontend dynamically grabs the API route via `window.location.hostname`. You can let your heavy GPU sweat in the basement while generating hot images from your phone in bed.
+*   **True LAN Party Capabilities:** The server listens on `0.0.0.0` and the React frontend dynamically grabs the API route via `window.location.hostname`. You can let your heavy GPU sweat in the basement while generating images.
 
 ---
 
