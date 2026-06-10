@@ -49,6 +49,13 @@ Simply place them into the folder `app/models/components/`:
 
 Once these files are present, the system will automatically detect them when loading a Flux model and start the C++ server with the correct `--diffusion-model`, `--clip_l`, `--t5xxl`, and `--vae` flags.
 
+> 💡 **Tip:** You can download all required components automatically using the provided bash script:
+> ```bash
+> chmod +x download_flux_components.sh
+> ./download_flux_components.sh
+> ```
+> This script will fetch and place the VAE, CLIP-L, and an optimized Q8_0 T5XXL Text Encoder into the correct folder, with resume capability.
+
 ### 5. Have Fun
 Open your browser at:
 `http://localhost:1420` (or your Linux server's IP within the LAN)
