@@ -27,7 +27,7 @@ if command -v nvidia-smi &> /dev/null; then
     # Versuche nvcc oder Standardpfade zu finden und in PATH/LD_LIBRARY_PATH einzubinden
     CUDA_BIN=""
     if command -v nvcc &> /dev/null; then
-        CUDA_BIN="$(dirname "$(command -v nvcc")")"
+        CUDA_BIN="$(dirname "$(command -v nvcc)")"
     else
         for path in /usr/local/cuda/bin /usr/local/cuda-13.3/bin /usr/local/cuda-12.*/bin /usr/local/cuda-11.*/bin; do
             if [ -x "$path/nvcc" ]; then

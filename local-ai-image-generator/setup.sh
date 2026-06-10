@@ -75,7 +75,7 @@ fi
 CUDA_BIN_PATH=""
 if $HAS_NVIDIA; then
     if command -v nvcc &> /dev/null; then
-        CUDA_BIN_PATH="$(dirname "$(command -v nvcc")")"
+        CUDA_BIN_PATH="$(dirname "$(command -v nvcc)")"
     else
         # Suche an Standardpfaden
         for path in /usr/local/cuda/bin /usr/local/cuda-13.3/bin /usr/local/cuda-12.*/bin /usr/local/cuda-11.*/bin; do
