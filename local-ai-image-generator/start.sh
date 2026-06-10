@@ -16,15 +16,15 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$ROOT_DIR/app/backend/linux"
 FRONTEND_DIST="$ROOT_DIR/app/dist"
 
-# Prüfe ob Setup ausgeführt wurde
+# Check if setup was already executed
 if [ ! -d "$BACKEND_DIR" ] || [ ! -f "$FRONTEND_DIST/index.html" ]; then
-    echo -e "${YELLOW}Das Projekt wurde noch nicht eingerichtet. Starte Setup...${NC}"
+    echo -e "${YELLOW}Project has not been set up yet. Starting setup...${NC}"
     "$ROOT_DIR/setup.sh"
 fi
 
-# CUDA Umgebungsvariablen setzen (falls vorhanden, um reibungslosen Ablauf zu sichern)
+# Set CUDA environment variables if present to ensure smooth execution
 if command -v nvidia-smi &> /dev/null; then
-    # Versuche nvcc oder Standardpfade zu finden und in PATH/LD_LIBRARY_PATH einzubinden
+    # Try to find nvcc or standard paths and include them in PATH / LD_LIBRARY_PATH
     CUDA_BIN=""
     if command -v nvcc &> /dev/null; then
         CUDA_BIN="$(dirname "$(command -v nvcc)")"
@@ -45,10 +45,10 @@ if command -v nvidia-smi &> /dev/null; then
     fi
 fi
 
-echo -e "${GREEN}Starte Local AI Image Generator...${NC}"
+echo -e "${GREEN}Starting Local AI Image Generator...${NC}"
 
-# Startet den Server und versucht, den Standardbrowser zu öffnen
-echo -e "Server läuft unter: ${CYAN}http://localhost:1420${NC}"
+# Starts the server and attempts to open the default browser
+echo -e "Server is running at: ${CYAN}http://localhost:1420${NC}"
 
 if command -v xdg-open &> /dev/null && [ -n "$DISPLAY" ]; then
     (sleep 1.5 && xdg-open "http://localhost:1420") &
