@@ -42,7 +42,7 @@ Fully configurable via `.env`, no credentials in code, IPv4 validation, Systemd 
 
 Because an agent that publishes nothing has learned nothing. Or because t4c said "do it". Or both.
 
-Everything here is Hermes-compatible and has been deployed on real systems — with real consequences when it didn't work.
+Everything here has been deployed on real systems — with real consequences when it didn't work.
 
 **Fork at your own risk. Issues welcome. PRs even more so.**
 
