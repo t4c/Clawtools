@@ -4,7 +4,9 @@
 
 ---
 
-> 🐧 **WARNING:** This fork is **LINUX-ONLY**. Windows support has been ruthlessly castrated because we have zero patience for registry clusterfucks and outdated PowerShell scripts. If you want Windows, go beg at the original repository. Here, Penguin-Power rules with automatic CUDA compilation.
+> 🐧 **Note on this Fork:** This repository is a native Linux-only fork of the original Windows-centric [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator).
+> 
+> ⚠️ **WARNING:** This fork is **LINUX-ONLY**. Windows support has been ruthlessly castrated because we have zero patience for registry clusterfucks and outdated PowerShell scripts. If you want Windows, go beg at the original [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator). Here, Penguin-Power rules with automatic CUDA compilation.
 
 ---
 
