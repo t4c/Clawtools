@@ -41,13 +41,13 @@ We support `.safetensors` and `.gguf` weights (SD 1.5, SDXL, etc.).
 *   Or use the integrated **Model Manager** in the Web UI to download models directly via Hugging Face URLs.
 
 ### 4. Multi-File Models (Flux / Hunyuan / Qwen / Wan etc.)
-Für Multi-File-Modelle wie Flux (z.B. `flux1-dev-Q5_0.gguf`) reichen die reinen Weights nicht aus. Das Backend benötigt separate Komponenten wie VAE und Text-Encoder.
-Lege diese einfach in den Ordner `app/models/components/`:
-*   **VAE / Autoencoder:** `ae.safetensors` (oder `ae.gguf`)
-*   **CLIP-L Text-Encoder:** `clip_l.safetensors` (oder `clip_l-f16.gguf`)
-*   **T5XXL Text-Encoder:** `t5xxl.safetensors` (z.B. die performante `t5xxl_q8_0.gguf` Version)
+For multi-file models like Flux (e.g. `flux1-dev-Q5_0.gguf`), the raw weights are not enough. The backend requires separate components like VAE and Text-Encoders.
+Simply place them into the folder `app/models/components/`:
+*   **VAE / Autoencoder:** `ae.safetensors` (or `ae.gguf`)
+*   **CLIP-L Text-Encoder:** `clip_l.safetensors` (or `clip_l-f16.gguf`)
+*   **T5XXL Text-Encoder:** `t5xxl.safetensors` (e.g. the high-performance `t5xxl_q8_0.gguf` version)
 
-Sobald diese Dateien dort liegen, erkennt das System sie beim Laden eines Flux-Modells vollautomatisch und startet den C++ Server mit den korrekten `--diffusion-model`, `--clip_l`, `--t5xxl` und `--vae` Flags.
+Once these files are present, the system will automatically detect them when loading a Flux model and start the C++ server with the correct `--diffusion-model`, `--clip_l`, `--t5xxl`, and `--vae` flags.
 
 ### 5. Have Fun
 Open your browser at:
