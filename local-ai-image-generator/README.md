@@ -1,71 +1,71 @@
 # 🖼️ Local AI Image Generator (Linux CUDA Fork)
 
-### Ein unverschämt schneller, rein lokaler Stable Diffusion GUI, der direkt auf C++ läuft. Kein Python-Bloat, kein Anaconda-Dreck, keine Windows-Tränen. Nur nacktes C++ auf deiner Linux-GPU.
+### A ridiculously fast, purely local Stable Diffusion GUI running directly on C++. No Python bloat, no Anaconda nonsense, no Windows tears. Just raw C++ powering your Linux GPU.
 
 ---
 
-> 🐧 **WARNUNG:** Dieser Fork ist **NUR FÜR LINUX**. Der Windows-Support wurde eiskalt wegrationalisiert, weil wir keine Lust auf Registry-Geficke und veraltete PowerShell-Skripte hatten. Wer Windows nutzen will, soll beim originalen Windows-Repo betteln gehen. Hier regiert Pinguin-Power mit automatischer CUDA-Kompilierung.
+> 🐧 **WARNING:** This fork is **LINUX-ONLY**. Windows support has been ruthlessly castrated because we have zero patience for registry clusterfucks and outdated PowerShell scripts. If you want Windows, go beg at the original repository. Here, Penguin-Power rules with automatic CUDA compilation.
 
 ---
 
-## 🖤 Warum dieser Fork?
-Der originale Code war ein Windows-Knecht. Wir haben die Peitsche ausgepackt und das Projekt für Linux domestiziert:
-*   **100% Linux native:** Kein Wine, kein WSL-Gefriemel.
-*   **Automatische CUDA-Kompilierung:** Wenn du Nvidia auf der Kiste hast, kompiliert `./setup.sh` beim ersten Start vollautomatisch `stable-diffusion.cpp` mit nativer CUDA-Beschleunigung.
-*   **Echte LAN-Party-Tauglichkeit:** Der Server lauscht auf `0.0.0.0` und das React-Frontend zieht sich die API-Route dynamisch via `window.location.hostname`. Du kannst deine dicke GPU im Keller glühen lassen, während du im Bett auf dem Handy heiße Bilder generierst.
+## 🖤 Why this Fork?
+The original codebase was a Windows slave. We brought out the whip and domesticated it for Linux:
+*   **100% Native Linux:** No Wine, no WSL gymnastics.
+*   **Automated CUDA Compilation:** If you have an Nvidia card, `./setup.sh` automatically compiles `stable-diffusion.cpp` with native CUDA acceleration on first run.
+*   **True LAN Party Capabilities:** The server listens on `0.0.0.0` and the React frontend dynamically grabs the API route via `window.location.hostname`. You can let your heavy GPU sweat in the basement while generating hot images from your phone in bed.
 
 ---
 
 ## ⚡ Setup & Start
 
-### 1. Abhängigkeiten installieren
-Du brauchst die üblichen Werkzeuge für heiße C++ Action. Unter Debian/Ubuntu-basierten Systemen:
+### 1. Install Dependencies
+You'll need the usual tools for some hot C++ action. On Debian/Ubuntu-based systems:
 ```bash
 sudo apt update
 sudo apt install build-essential cmake nodejs npm
-# Und natürlich ein funktionierendes CUDA-Toolkit (nvcc muss im PATH sein!)
+# And of course, a working CUDA Toolkit (nvcc must be in your PATH!)
 ```
 
-### 2. Klonen & Starten
-Lass das Skript die Drecksarbeit machen:
+### 2. Clone & Start
+Let the script do the dirty work:
 ```bash
 chmod +x start.sh setup.sh
 ./start.sh
 ```
-Das Skript prüft deine CUDA-Umgebung, klont und kompiliert `stable-diffusion.cpp` im Hintergrund, baut das Frontend und startet den Webserver.
+The script verifies your CUDA environment, clones and compiles `stable-diffusion.cpp` in the background, builds the frontend, and boots up the web server.
 
-### 3. Modelle füttern
-Wir unterstützen `.safetensors` und `.gguf` (SD 1.5, SDXL etc.).
-*   Wirf deine Gewichte einfach nach `app/models/`
-*   Oder nutze den integrierten **Model Manager** im Web-UI, um Modelle direkt via Hugging Face URL runterzuladen.
+### 3. Feed the Models
+We support `.safetensors` and `.gguf` weights (SD 1.5, SDXL, etc.).
+*   Just drop your weights into `app/models/`
+*   Or use the integrated **Model Manager** in the Web UI to download models directly via Hugging Face URLs.
 
-### 4. Spaß haben
-Öffne deinen Browser unter:
-`http://localhost:1420` (oder die IP deines Linux-Servers im LAN)
+### 4. Have Fun
+Open your browser at:
+`http://localhost:1420` (or your Linux server's IP within the LAN)
 
 ---
 
-## 📁 Struktur des Lagers
+## 📁 Storage Structure
 ```
 local-ai-image-generator/
-├── start.sh                   # Der Haupt-Einstiegspunkt für Linux
-├── setup.sh                   # Kompiliert das Backend frisch & knackig
+├── start.sh                   # Main Linux entry point
+├── setup.sh                   # Fresh & crisp backend compilation
 ├── scripts/
-│   └── serve.cjs              # Der static Node.js File- & Prozess-Manager
+│   └── serve.cjs              # Static Node.js file & process manager
 └── app/
-    ├── frontend/              # React-Frontend (Vite)
-    ├── models/                # Hier schlafen deine Modelle (.safetensors, .gguf)
-    └── outputs/               # Hier landen die heißen Ergebnisse (.png & .json Metadata)
+    ├── frontend/              # React Frontend (Vite)
+    ├── models/                # Where your models sleep (.safetensors, .gguf)
+    └── outputs/               # Where the hot results land (.png & .json Metadata)
 ```
 
 ---
 
-## 🍆 Performance & VRAM-Hunger
-Da wir direkt auf C++ (`stable-diffusion.cpp`) aufbauen, ist der VRAM-Verbrauch extrem gezügelt. 
-*   **CUDA GPU (z.B. RTX 3060):** Generiert ein 512x512 Bild (20 Steps) in ca. **10 Sekunden**.
-*   **CPU-Fallback:** Wenn du keine GPU hast (oder deine Treiber nicht befriedigt hast), läuft es elendig langsam auf den CPU-Kernen. Also besorg dir CUDA.
+## 🍆 Performance & VRAM Appetite
+Since we build directly on top of C++ (`stable-diffusion.cpp`), VRAM consumption is kept strictly on a leash.
+*   **CUDA GPU (e.g., RTX 3060):** Generates a 512x512 image (20 steps) in about **10 seconds**.
+*   **CPU Fallback:** If you don't have a GPU (why do you even do this to yourself?), it will run painfully slow on CPU cores. Get CUDA.
 
 ---
 
-## 🛡️ Lizenz
-Dieses Repository ist unter der MIT-Lizenz lizenziert. Es nutzt [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) als Backend.
+## 🛡️ License
+This repository is licensed under the MIT License. It uses [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) as its backend.
