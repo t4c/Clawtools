@@ -1530,7 +1530,7 @@ const server = http.createServer(async (req, res) => {
     await killBackend();
     await new Promise(r => setTimeout(r, 500));
     const newSettings = {};
-    if (body.model)    newSettings.model    = path.join(MODELS, body.model);
+    if (body.model)    newSettings.model    = path.join(MODELS, path.basename(body.model));
     if (body.steps)    newSettings.steps    = parseInt(body.steps);
     if (body.cfgScale) newSettings.cfgScale = parseFloat(body.cfgScale);
     if (body.sampler)  newSettings.sampler  = body.sampler;
@@ -1673,8 +1673,24 @@ const server = http.createServer(async (req, res) => {
   }
 
   // ── Static frontend files ─────────────────────────────────────────────────
-  let filePath = path.join(DIST, req.url === "/" ? "index.html" : req.url);
-  filePath = filePath.split("?")[0];
+  let decodedUrl;
+  try {
+    decodedUrl = decodeURIComponent(req.url);
+  } catch (_) {
+    decodedUrl = req.url;
+  }
+  let relativePath = decodedUrl.split("?")[0];
+  if (relativePath === "/") relativePath = "index.html";
+
+  let filePath = path.resolve(path.join(DIST, relativePath));
+
+  // Guard against path traversal
+  if (!filePath.startsWith(DIST)) {
+    res.writeHead(403);
+    res.end("Forbidden");
+    return;
+  }
+
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     filePath = path.join(DIST, "index.html");
   }
