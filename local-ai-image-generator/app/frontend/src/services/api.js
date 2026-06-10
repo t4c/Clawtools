@@ -12,7 +12,7 @@ let cachedBackendPort = null;
 export const EXPECTED_SERVER_BUILD = "polish-setup-v1";
 
 const isLocalServerMode = () => {
-  return typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  return typeof window !== "undefined";
 };
 
 async function getBackendPort() {
@@ -31,7 +31,7 @@ async function getBackendPort() {
 }
 
 async function getBackendBaseUrl() {
-  return `http://127.0.0.1:${await getBackendPort()}`;
+  return `http://${window.location.hostname}:${await getBackendPort()}`;
 }
 
 export function formatBytes(bytes) {
@@ -209,7 +209,7 @@ export async function listLocalModels() {
     }
   }
 
-  const isLocalServerMode = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  const isLocalServerMode = typeof window !== "undefined";
   if (isLocalServerMode) {
     return await listModelsFromDisk();
   }
@@ -749,7 +749,7 @@ export async function deleteModel(filename) {
     return await invoke("delete_model_file", { filename });
   }
 
-  const isLocalServerMode = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  const isLocalServerMode = typeof window !== "undefined";
   if (isLocalServerMode) {
     try {
       const res = await fetch("/api/delete-model", {

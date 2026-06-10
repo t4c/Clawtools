@@ -1,6 +1,12 @@
-# 🖼️ Local AI Image Generator
+# 🖼️ Local AI Image Generator (Linux & Windows Fork)
 
-### An easy, zero-setup Stable Diffusion GUI for Windows & Linux. Run GGUF & Safetensors models offline without Python configuration.
+### A high-performance, zero-configuration Stable Diffusion GUI supporting Windows & Linux. Run GGUF & Safetensors models offline without Python.
+
+---
+
+> 🐧 **Note on this Fork:** This repository is a native Linux/multi-platform fork of the original Windows-only [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator). It adds flawless, robust Linux CUDA & Vulkan support via automatic on-the-fly C++ compilation, and allows remote access across your local network.
+
+---
 
 
 

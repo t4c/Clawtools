@@ -1689,7 +1689,7 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT_FRONTEND, "127.0.0.1", () => {
+server.listen(PORT_FRONTEND, "0.0.0.0", () => {
   console.log("");
   console.log("  ============================================================");
   console.log("   LOCAL AI IMAGE GENERATOR  |  Running");
