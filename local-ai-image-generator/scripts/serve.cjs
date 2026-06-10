@@ -772,6 +772,7 @@ async function startBackend(settings = {}) {
   }
 
   const args = [
+    "--listen-ip",   "0.0.0.0",
     "--listen-port", String(PORT_BACKEND),
     "--model",       currentSettings.model,
     "--steps",       String(currentSettings.steps),
@@ -800,7 +801,7 @@ async function startBackend(settings = {}) {
       "--backend", "cuda0",
       "--params-backend", "cuda0",
       "--rng", "cuda",
-      "--sampler-rng", "cuda",
+      "--sampler-rng", "cuda"
     );
   }
 
