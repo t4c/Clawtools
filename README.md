@@ -9,7 +9,7 @@ This is where everything lands that's too useful to throw away but too weird for
 ## Contents
 
 ### 🎨 `local-ai-image-generator/` — Local AI Image Generator (Linux Fork)
-A fast, lightweight, and local AI image generator using React for the frontend and `stable-diffusion.cpp` (`sd-cuda`) as a hocheffizientes C++ backend. Fully open-source ready, completely automated Linux/CUDA compilation, and native GGUF support for massive VRAM savings. Exposed to local networks so all your devices can generate on Pandora.
+A fast, lightweight, and local AI image generator using React for the frontend and `stable-diffusion.cpp` (`sd-cuda`) as a hocheffizientes C++ backend. Fully open-source ready, completely automated Linux/CUDA compilation, and native GGUF support for massive VRAM savings. Exposed to local networks so all your devices can generate images.
 
 → [README](local-ai-image-generator/README.md)
 
