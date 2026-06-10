@@ -1,108 +1,71 @@
-# 🖼️ Local AI Image Generator (Linux & Windows Fork)
+# 🖼️ Local AI Image Generator (Linux CUDA Fork)
 
-### A high-performance, zero-configuration Stable Diffusion GUI supporting Windows & Linux. Run GGUF & Safetensors models offline without Python.
-
----
-
-> 🐧 **Note on this Fork:** This repository is a native Linux/multi-platform fork of the original Windows-only [techjarves/Local-AI-Image-Generator](https://github.com/techjarves/Local-AI-Image-Generator). It adds flawless, robust Linux CUDA & Vulkan support via automatic on-the-fly C++ compilation, and allows remote access across your local network.
+### Ein unverschämt schneller, rein lokaler Stable Diffusion GUI, der direkt auf C++ läuft. Kein Python-Bloat, kein Anaconda-Dreck, keine Windows-Tränen. Nur nacktes C++ auf deiner Linux-GPU.
 
 ---
 
-
-
-| **Generation Workspace** | **Model Library** | **Image Constraints** |
-| :---: | :---: | :---: |
-| <img src="assets/dashboard.png" width="100%" style="border-radius: 6px;"> | <img src="assets/models.png" width="100%" style="border-radius: 6px;"> | <img src="assets/settings.png" width="100%" style="border-radius: 6px;"> |
+> 🐧 **WARNUNG:** Dieser Fork ist **NUR FÜR LINUX**. Der Windows-Support wurde eiskalt wegrationalisiert, weil wir keine Lust auf Registry-Geficke und veraltete PowerShell-Skripte hatten. Wer Windows nutzen will, soll beim originalen Windows-Repo betteln gehen. Hier regiert Pinguin-Power mit automatischer CUDA-Kompilierung.
 
 ---
 
-</div>
-
-<div align="center">
-  <p>🎥 <b>Watch the Setup & Demo Video:</b> <a href="https://youtu.be/ESELhY-G_9w">https://youtu.be/ESELhY-G_9w</a></p>
-  <a href="https://youtu.be/ESELhY-G_9w">
-    <img src="https://img.youtube.com/vi/ESELhY-G_9w/maxresdefault.jpg" alt="Local AI Image Generator Video Tutorial" style="width:100%; max-width:800px; border-radius: 8px; margin-top: 10px;">
-  </a>
-</div>
+## 🖤 Warum dieser Fork?
+Der originale Code war ein Windows-Knecht. Wir haben die Peitsche ausgepackt und das Projekt für Linux domestiziert:
+*   **100% Linux native:** Kein Wine, kein WSL-Gefriemel.
+*   **Automatische CUDA-Kompilierung:** Wenn du Nvidia auf der Kiste hast, kompiliert `./setup.sh` beim ersten Start vollautomatisch `stable-diffusion.cpp` mit nativer CUDA-Beschleunigung.
+*   **Echte LAN-Party-Tauglichkeit:** Der Server lauscht auf `0.0.0.0` und das React-Frontend zieht sich die API-Route dynamisch via `window.location.hostname`. Du kannst deine dicke GPU im Keller glühen lassen, während du im Bett auf dem Handy heiße Bilder generierst.
 
 ---
 
-## 📖 Overview
-**Local AI Image Generator** is a zero-configuration, portable desktop environment for running Stable Diffusion (Safetensors/GGUF/CKPT) offline on Windows. Double-clicking `start.bat` automatically handles dependency setup, GPU backend matching (CUDA/Vulkan), and launches a high-performance local web workspace.
+## ⚡ Setup & Start
+
+### 1. Abhängigkeiten installieren
+Du brauchst die üblichen Werkzeuge für heiße C++ Action. Unter Debian/Ubuntu-basierten Systemen:
+```bash
+sudo apt update
+sudo apt install build-essential cmake nodejs npm
+# Und natürlich ein funktionierendes CUDA-Toolkit (nvcc muss im PATH sein!)
+```
+
+### 2. Klonen & Starten
+Lass das Skript die Drecksarbeit machen:
+```bash
+chmod +x start.sh setup.sh
+./start.sh
+```
+Das Skript prüft deine CUDA-Umgebung, klont und kompiliert `stable-diffusion.cpp` im Hintergrund, baut das Frontend und startet den Webserver.
+
+### 3. Modelle füttern
+Wir unterstützen `.safetensors` und `.gguf` (SD 1.5, SDXL etc.).
+*   Wirf deine Gewichte einfach nach `app/models/`
+*   Oder nutze den integrierten **Model Manager** im Web-UI, um Modelle direkt via Hugging Face URL runterzuladen.
+
+### 4. Spaß haben
+Öffne deinen Browser unter:
+`http://localhost:1420` (oder die IP deines Linux-Servers im LAN)
 
 ---
 
-## ⚡ Quick Start
-### 🪟 Windows
-1. **Launch:** Double-click **`start.bat`** (downloads portable Node.js and pre-compiled GPU backend binaries on first run).
-2. **Add Models:** Drop `.safetensors`, `.gguf`, or `.ckpt` weights into `app/models/` (or download them via the **Model Manager** tab in the UI).
-3. **Generate:** Open `http://localhost:1420` in your browser, select your model, and write a prompt.
-
-### 🐧 Linux
-1. **Launch:** Run **`./start.sh`** (automates dependency verification, compiles high-performance CUDA/Vulkan backends on first run).
-2. **Add Models:** Drop weight files into `app/models/` or use the Model Manager in the UI.
-3. **Generate:** Navigate to `http://localhost:1420`.
-
----
-
-## ✨ Features
-*   **100% Offline & Private:** Inference runs completely locally on your hardware.
-*   **Auto-Detected GPU Acceleration:** Configures **CUDA** for Nvidia cards, and **Vulkan** for AMD or Intel Arc GPUs.
-*   **Zero System Footprint:** Node.js is sandboxed inside the folder. No global environment paths are altered.
-*   **Integrated Model Manager:** Paste a Hugging Face URL to download weights directly, or drag-and-drop local weight files to import them.
-*   **Real-time Telemetry:** Monitor RAM, VRAM, CPU, and GPU load directly in the UI.
-*   **Local Gallery:** Saves generated PNGs alongside prompt metadata JSONs to `app/outputs/`.
-
----
-
-## 📁 Repository Structure
+## 📁 Struktur des Lagers
 ```
 local-ai-image-generator/
-├── start.bat                  # Windows double-click entrypoint
-├── start.sh                   # Linux main startup entrypoint (runs setup.sh if needed)
-├── setup.sh                   # Linux compile & build orchestrator
-├── LICENSE                    # MIT Open Source license
-├── .gitignore
-├── README.md                  
+├── start.sh                   # Der Haupt-Einstiegspunkt für Linux
+├── setup.sh                   # Kompiliert das Backend frisch & knackig
 ├── scripts/
-│   ├── setup.ps1              # Windows automated installer
-│   ├── reset.ps1              # Cleans Windows runtime environments
-│   └── serve.cjs              # Cross-platform static file & backend process manager
+│   └── serve.cjs              # Der static Node.js File- & Prozess-Manager
 └── app/
-    ├── frontend/              # UI source code (Vite + React)
-    ├── models/                # Place weights here (.safetensors, .gguf, .ckpt)
-    └── outputs/               # Saved images and parameters metadata
+    ├── frontend/              # React-Frontend (Vite)
+    ├── models/                # Hier schlafen deine Modelle (.safetensors, .gguf)
+    └── outputs/               # Hier landen die heißen Ergebnisse (.png & .json Metadata)
 ```
 
 ---
 
-## 🖥️ GPU Compatibility Matrix
-
-| GPU Vendor | Tech | Status | Notes |
-| :--- | :--- | :--- | :--- |
-| **Nvidia** | CUDA | ✅ Native | Maps `sd-cuda.exe` with Nvidia SDK 12 optimizations. |
-| **AMD Radeon** | Vulkan | ✅ Native | Maps `sd-vulkan.exe` with Vulkan API acceleration. |
-| **Intel Arc** | Vulkan | ✅ Native | Maps `sd-vulkan.exe` for Intel hardware. |
-| **Integrated / None** | CPU | ⚠️ Fallback | Runs on logical CPU threads (slow). |
+## 🍆 Performance & VRAM-Hunger
+Da wir direkt auf C++ (`stable-diffusion.cpp`) aufbauen, ist der VRAM-Verbrauch extrem gezügelt. 
+*   **CUDA GPU (z.B. RTX 3060):** Generiert ein 512x512 Bild (20 Steps) in ca. **10 Sekunden**.
+*   **CPU-Fallback:** Wenn du keine GPU hast (oder deine Treiber nicht befriedigt hast), läuft es elendig langsam auf den CPU-Kernen. Also besorg dir CUDA.
 
 ---
 
-## ⏱️ Performance Benchmarks
-
-Typical generation times for an image with **20 steps** (e.g. 512x512 resolution; actual times can vary depending on specific hardware specifications, clock speeds, and system load):
-
-*   **CUDA GPU (Nvidia RTX):** ~10 seconds.
-*   **Vulkan GPU (AMD / Intel Arc):** ~89 seconds.
-*   **GTX Vulkan Fallback (Nvidia GTX):** ~30 seconds (Vulkan runs significantly faster on legacy GTX series cards since they lack Tensor Cores).
-*   **CPU (Fallback):** ~150 - 300+ seconds (highly dependent on processor core count, speed, and AVX instruction sets).
-
----
-
-## 🛠️ Troubleshooting
-*   **Reset Environment:** If a build fails or you want to clear dependencies, run `scripts/reset.ps1`. (This preserves your models and generated images).
-*   **Port Conflicts:** The frontend uses `1420` by default. The backend tries `8080` first, then automatically falls back to a free port if `8080` is already busy.
-
----
-
-## 📝 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file. Bundles [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) (MIT License). Model weights are subject to their respective creators' licenses.
+## 🛡️ Lizenz
+Dieses Repository ist unter der MIT-Lizenz lizenziert. Es nutzt [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) als Backend.
