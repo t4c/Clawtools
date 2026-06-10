@@ -16,7 +16,7 @@ A fast, lightweight, and local AI image generator using React for the frontend a
 ---
 
 ### 📧 `skills/imap-smtp-email/` — IMAP/SMTP Skill
-Hermes skill for email handling. Read, move, forward — including attachments and `Fwd:` prefix. Built because the default behavior of email clients is unbearable.
+OpenClaw skill for email handling. Read, move, forward — including attachments and `Fwd:` prefix. Built because the default behavior of email clients is unbearable.
 
 ---
 
