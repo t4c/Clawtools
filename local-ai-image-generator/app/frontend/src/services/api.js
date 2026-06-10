@@ -53,7 +53,7 @@ export function normalizeModel(model) {
   };
 }
 
-async function readJsonResponse(res, fallbackMessage = "The local server returned an invalid response.") {
+async function readJsonResponse(res, fallbackMessage = "The local server returned an invalid response.", skipOkCheck = false) {
   const text = await res.text();
   let data = {};
   try {
@@ -63,7 +63,7 @@ async function readJsonResponse(res, fallbackMessage = "The local server returne
     throw new Error(looksLikeHtml ? "The local server is serving an older frontend/API. Restart the image generator." : fallbackMessage);
   }
 
-  if (!res.ok || data.ok === false) {
+  if (!res.ok || (!skipOkCheck && data.ok === false)) {
     if (data.error === "Unknown API endpoint") {
       throw new Error("Restart the image generator so the local server loads the latest API.");
     }
@@ -75,7 +75,7 @@ async function readJsonResponse(res, fallbackMessage = "The local server returne
 export async function getHealth() {
   try {
     const res = await fetch("/api/health");
-    const data = await readJsonResponse(res, "The local server returned an invalid health response.");
+    const data = await readJsonResponse(res, "The local server returned an invalid health response.", true);
     return {
       ...data,
       stale: data.build !== EXPECTED_SERVER_BUILD,

@@ -354,9 +354,25 @@ function getSetupPaths() {
       outputs: OUTPUTS,
     };
   } else if (osPlatform === "darwin") {
+    let nodePath = path.join(appDir, "tools", "node-mac", "bin", "node");
+    if (!fs.existsSync(nodePath)) {
+      try {
+        nodePath = execSync("which node").toString().trim();
+      } catch (_) {
+        nodePath = process.execPath;
+      }
+    }
+    let npmPath = path.join(appDir, "tools", "node-mac", "bin", "npm");
+    if (!fs.existsSync(npmPath)) {
+      try {
+        npmPath = execSync("which npm").toString().trim();
+      } catch (_) {
+        npmPath = "/usr/bin/npm";
+      }
+    }
     return {
-      node: path.join(appDir, "tools", "node-mac", "bin", "node"),
-      npm: path.join(appDir, "tools", "node-mac", "bin", "npm"),
+      node: nodePath,
+      npm: npmPath,
       distIndex: path.join(DIST, "index.html"),
       macBackend: BACKEND_PATHS.mac,
       models: MODELS,
@@ -364,11 +380,27 @@ function getSetupPaths() {
     };
   } else {
     // Linux / WSL
+    let nodePath = path.join(appDir, "tools", "node-linux", "bin", "node");
+    if (!fs.existsSync(nodePath)) {
+      try {
+        nodePath = execSync("which node").toString().trim();
+      } catch (_) {
+        nodePath = process.execPath;
+      }
+    }
+    let npmPath = path.join(appDir, "tools", "node-linux", "bin", "npm");
+    if (!fs.existsSync(npmPath)) {
+      try {
+        npmPath = execSync("which npm").toString().trim();
+      } catch (_) {
+        npmPath = "/usr/bin/npm";
+      }
+    }
     return {
-      node: path.join(appDir, "tools", "node-linux", "bin", "node"),
-      npm: path.join(appDir, "tools", "node-linux", "bin", "npm"),
+      node: nodePath,
+      npm: npmPath,
       distIndex: path.join(DIST, "index.html"),
-      linuxBackend: BACKEND_PATHS.linux,
+      linuxBackend: BACKEND_PATH,
       models: MODELS,
       outputs: OUTPUTS,
     };

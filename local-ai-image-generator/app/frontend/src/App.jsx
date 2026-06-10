@@ -154,7 +154,24 @@ function App() {
   const copyDiagnostics = useCallback(async () => {
     try {
       const diagnostics = await getDiagnostics();
-      await navigator.clipboard.writeText(JSON.stringify(diagnostics, null, 2));
+      const text = JSON.stringify(diagnostics, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+        if (!successful) {
+          throw new Error("Fallback copy command failed");
+        }
+      }
       setDiagnosticsCopied(true);
       setTimeout(() => setDiagnosticsCopied(false), 1800);
     } catch (err) {
