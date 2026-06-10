@@ -40,7 +40,16 @@ We support `.safetensors` and `.gguf` weights (SD 1.5, SDXL, etc.).
 *   Just drop your weights into `app/models/`
 *   Or use the integrated **Model Manager** in the Web UI to download models directly via Hugging Face URLs.
 
-### 4. Have Fun
+### 4. Multi-File Models (Flux / Hunyuan / Qwen / Wan etc.)
+Für Multi-File-Modelle wie Flux (z.B. `flux1-dev-Q5_0.gguf`) reichen die reinen Weights nicht aus. Das Backend benötigt separate Komponenten wie VAE und Text-Encoder.
+Lege diese einfach in den Ordner `app/models/components/`:
+*   **VAE / Autoencoder:** `ae.safetensors` (oder `ae.gguf`)
+*   **CLIP-L Text-Encoder:** `clip_l.safetensors` (oder `clip_l-f16.gguf`)
+*   **T5XXL Text-Encoder:** `t5xxl.safetensors` (z.B. die performante `t5xxl_q8_0.gguf` Version)
+
+Sobald diese Dateien dort liegen, erkennt das System sie beim Laden eines Flux-Modells vollautomatisch und startet den C++ Server mit den korrekten `--diffusion-model`, `--clip_l`, `--t5xxl` und `--vae` Flags.
+
+### 5. Have Fun
 Open your browser at:
 `http://localhost:1420` (or your Linux server's IP within the LAN)
 
