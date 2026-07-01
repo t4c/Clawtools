@@ -106,6 +106,7 @@ python LurkMaster.py watch-gmail --asin B0GXDWTFR5 --max-price 700.0 --dry-run
 - The script connects to your Gmail inbox via IMAP.
 - It stays idle, polling Gmail every 15 seconds.
 - As soon as an unread email from `support@bestell.bar` containing the product name (e.g. "Midea PortaSplit") in the subject arrives, the sniper instantly boots up Playwright, utilizes your saved session cookies, navigates to the checkout page, and triggers the buy flow!
+- **Auto-Timeout Security:** Once triggered by an email, the active Playwright browser process will run for a maximum of 5 minutes (300 seconds). If the item cannot be purchased within this window (e.g. because it went out of stock again), the browser session closes automatically, and the bot seamlessly transitions back into the passive Gmail-listening state to prevent IP flags and infinite resource consumption.
 
 ---
 
