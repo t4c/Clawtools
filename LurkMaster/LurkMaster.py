@@ -271,14 +271,16 @@ def checkout_and_buy(page, dry_run=False):
         # Silent failure as per user request
         return False
 
-def monitor_and_snipe(page, asin, max_price, interval, dry_run=False):
+def monitor_and_snipe(page, asin, max_price, interval, dry_run=False, timeout_mins=0):
     """Monitors the ASIN page and triggers buying if available."""
     url = f"https://www.amazon.de/dp/{asin}"
     logger.info(f"Starting Sniper Loop for ASIN {asin} with max price {max_price}€ and interval {interval}s")
     
     consecutive_captcha_failures = 0
+    start_time = time.time()
+    max_duration = timeout_mins * 60 if timeout_mins > 0 else float('inf')
     
-    while True:
+    while time.time() - start_time < max_duration:
         try:
             logger.info(f"Polling {url}...")
             # Navigate with a cache-busting parameter or randomized user behavior
@@ -371,8 +373,8 @@ def monitor_and_snipe(page, asin, max_price, interval, dry_run=False):
         sleep_time = max(1.0, sleep_time)
         time.sleep(sleep_time)
 
-def run_sniper_once(asin, max_price, dry_run=False, proxy=None):
-    """Launches Playwright and runs the sniper loop for a maximum of 5 minutes."""
+def run_sniper_once(asin, max_price, dry_run=False, proxy=None, timeout_mins=5):
+    """Launches Playwright and runs the sniper loop for a maximum of the specified minutes."""
     user_data_dir = os.path.join(os.getcwd(), "user_data")
     
     with sync_playwright() as p:
@@ -396,9 +398,9 @@ def run_sniper_once(asin, max_price, dry_run=False, proxy=None):
             context.close()
             return False
             
-        # Run monitor loop but with a 5-minute timeout
+        # Run monitor loop but with a specified timeout
         start_time = time.time()
-        max_duration = 300 # 5 minutes
+        max_duration = timeout_mins * 60
         url = f"https://www.amazon.de/dp/{asin}"
         
         logger.info(f"Starting aggressive sniper loop for ASIN {asin} (Max {max_duration}s)...")
@@ -485,7 +487,7 @@ def run_sniper_once(asin, max_price, dry_run=False, proxy=None):
         context.close()
         return success
 
-def listen_gmail_trigger(asin, max_price, dry_run=False, proxy=None):
+def listen_gmail_trigger(asin, max_price, dry_run=False, proxy=None, timeout_mins=5):
     """Listens to Gmail for trigger emails and starts the sniper run."""
     import imaplib
     import email
@@ -593,7 +595,7 @@ def listen_gmail_trigger(asin, max_price, dry_run=False, proxy=None):
                 send_telegram(f"🚨 <b>Trigger empfangen!</b>\nBetreff: <i>{trigger_subject}</i>\nTarget ASIN: <code>{active_asin}</code>\nStarte Amazon Sniper sofort!")
                 
                 # Start Playwright sniper run
-                run_sniper_once(active_asin, max_price, dry_run, proxy)
+                run_sniper_once(active_asin, max_price, dry_run, proxy, timeout_mins=timeout_mins)
                 
                 logger.info("Sniper run finished. Returning to listener mode...")
                 time.sleep(10) # Cool down before checking again
@@ -614,6 +616,7 @@ def main():
     parser.add_argument("--interval", type=float, default=10.0, help="Monitoring poll interval (seconds)")
     parser.add_argument("--dry-run", action="store_true", help="Navigate to checkout but do NOT click the final purchase button")
     parser.add_argument("--proxy", help="Proxy server to use, e.g. socks5://127.0.0.1:1080")
+    parser.add_argument("--timeout-mins", type=int, default=0, help="Duration to run the session in minutes. In passive 'watch-gmail' mode, this governs the triggered run length (default: 5). In active 'run' mode, default is 0 (indefinite/unlimited polling).")
     
     args = parser.parse_args()
     
@@ -621,9 +624,11 @@ def main():
     user_data_dir = os.path.join(os.getcwd(), "user_data")
     
     if args.action == "watch-gmail":
-        # Start Gmail trigger listener directly (it launches Playwright only when triggered)
-        listen_gmail_trigger(args.asin, args.max_price, dry_run=args.dry_run, proxy=args.proxy)
-        sys.exit(0)
+         # Start Gmail trigger listener directly (it launches Playwright only when triggered)
+         # If timeout-mins is 0 (the default), pass 5 (mins) as the fallback for triggered sessions
+         t_mins = args.timeout_mins if args.timeout_mins > 0 else 5
+         listen_gmail_trigger(args.asin, args.max_price, dry_run=args.dry_run, proxy=args.proxy, timeout_mins=t_mins)
+         sys.exit(0)
         
     with sync_playwright() as p:
         # Launch persistent context
@@ -658,7 +663,18 @@ def main():
                 send_telegram("⚠️ <b>Amazon Sniper gestoppt!</b> Bitte logge dich zuerst ein: <code>python sniper.py login</code>")
                 sys.exit(1)
                 
-            monitor_and_snipe(page, args.asin, args.max_price, args.interval, dry_run=args.dry_run)
+            # If the user wants a finite active run, they can use --timeout-mins (only if explicitly set or we just let it run indefinitely by default)
+            # To be safe and flexible, we respect --timeout-mins if set (or we run indefinitely if they didn't pass it, but wait, having it optional is better).
+            # Actually, let's allow run to also support the timeout!
+            start_time = time.time()
+            max_duration = args.timeout_mins * 60
+            
+            # Wrap the monitor_and_snipe logic to support manual timeout
+            logger.info(f"Starting active sniper. Timeout set to {args.timeout_mins} minutes." if args.timeout_mins > 0 else "Starting active sniper indefinitely.")
+            
+            # We can modify monitor_and_snipe to accept a timeout or we can just run it
+            # Let's adjust monitor_and_snipe signature to support timeout too!
+            monitor_and_snipe(page, args.asin, args.max_price, args.interval, dry_run=args.dry_run, timeout_mins=args.timeout_mins)
             
         context.close()
 
